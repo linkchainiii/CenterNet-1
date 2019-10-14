@@ -27,8 +27,8 @@ def ae_loss(tl_tag, br_tag, tl_tag_mark, br_tag_mark, tag_mask):
     # get the group points
     tl_tag_mark = tf.cast(tl_tag_mark, tf.int64)
     br_tag_mark = tf.cast(br_tag_mark, tf.int64)
-    tl_tag = tf.gather(tl_tag, tl_tag_mark, axis=1, batch_dims=1)
-    br_tag = tf.gather(br_tag, br_tag_mark, axis=1, batch_dims=1)
+    tl_tag = tf.batch_gather(tl_tag, tl_tag_mark)
+    br_tag = tf.batch_gather(br_tag, br_tag_mark)
 
     tag_mean = (tl_tag + br_tag)/2
     pull = tf.squeeze(tl_tag - tag_mean) + tf.square(br_tag - tag_mean)
